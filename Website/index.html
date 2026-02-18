@@ -1,0 +1,748 @@
+	<!DOCTYPE html>
+	<html lang="en" class="dark scroll-smooth">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CreateOnBase Community</title>
+		
+		<!-- Tailwind CSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
+		
+		<!-- Configure Tailwind for Dark Mode -->
+		<script>
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						fontFamily: {
+							sans: ['Inter', 'sans-serif'],
+						},
+						colors: {
+							// Custom Blue Theme Colors for Light Mode
+							'brand-blue': '#0052FF',
+							'brand-blue-dark': '#0043D1',
+						},
+						animation: {
+							'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+							'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+						},
+						keyframes: {
+							fadeInUp: {
+								'0%': { opacity: '0', transform: 'translateY(20px)' },
+								'100%': { opacity: '1', transform: 'translateY(0)' },
+							}
+						}
+					}
+				}
+			}
+		</script>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+		<!-- Lucide Icons -->
+		<script src="https://unpkg.com/lucide@latest"></script>
+		
+		<!-- Font Awesome (for some icons in team section) -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+		<style>
+			body { font-family: 'Inter', sans-serif; }
+			
+			/* Custom Background Patterns */
+			.bg-grid {
+				background-image: linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+								  linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+				background-size: 24px 24px;
+			}
+			
+			/* Glassmorphism Class */
+			.glass {
+				background: rgba(255, 255, 255, 0.1);
+				backdrop-filter: blur(10px);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				color: white;
+			}
+			
+			/* Dark mode specific grid */
+			.dark .bg-grid {
+				 background-image: linear-gradient(to right, rgba(128,128,128,0.1) 1px, transparent 1px),
+								  linear-gradient(to bottom, rgba(128,128,128,0.1) 1px, transparent 1px);
+			}
+
+			/* Hover Lift Effect */
+			.hover-lift {
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+			}
+			.hover-lift:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+			}
+			
+			/* Utility for delay */
+			.delay-100 { animation-delay: 100ms; }
+			.delay-200 { animation-delay: 200ms; }
+			.delay-300 { animation-delay: 300ms; }
+		</style>
+	</head>
+	<body class="bg-brand-blue text-white dark:bg-[#050505] dark:text-gray-200 transition-colors duration-500 selection:bg-white/30 dark:selection:bg-indigo-500/30">
+
+		<!-- HERO BACKGROUND SYSTEM -->
+		<div class="fixed inset-0 -z-10 transition-colors duration-500 pointer-events-none">
+			<!-- 1. Base Grid Layer -->
+			<div class="absolute inset-0 bg-grid"></div>
+
+			<!-- 2. Spotlight Effect (Adjusted for Blue Theme) -->
+			<div class="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,#ffffff10,#0052FF)] dark:bg-[radial-gradient(circle_800px_at_50%_200px,#1a1a1a00,#050505)] transition-colors duration-500"></div>
+
+			<!-- 3. Top Highlight -->
+			<div class="absolute top-0 left-0 right-0 h-[500px] opacity-30 bg-[radial-gradient(circle_at_50%_0%,#ffffff_0%,transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_0%,#4f46e5_0%,transparent_70%)] transition-colors duration-500"></div>
+		</div>
+
+		<!-- NAVIGATION -->
+		<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 border-b border-transparent">
+			<div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+				<!-- Logo -->
+				<a href="#home" class="flex items-center gap-2 font-black text-xl tracking-tight cursor-pointer text-white dark:text-white">
+					<div>
+						<img src="logo.svg" alt="Create On Base" width="90" height="90"  onerror="this.src='https://placehold.co/40x40/white/blue?text=CB'">
+					</div>
+					<span>CreateOnBase</span>
+				</a>
+
+				<!-- Desktop Links -->
+				<div class="hidden md:flex items-center gap-8">
+					<a href="#about" class="nav-link text-sm font-bold text-blue-100 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors">About</a>
+					<a href="#team" class="nav-link text-sm font-bold text-blue-100 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors">Team</a>
+					<a href="#updates" class="nav-link text-sm font-bold text-blue-100 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors">Updates</a>
+					<a href="#join" class="nav-link text-sm font-bold text-blue-100 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors">Join</a>
+				</div>
+
+				<!-- Theme Toggle -->
+				<button id="theme-toggle" class="w-10 h-10 rounded-lg flex items-center justify-center transition-all border bg-white/20 border-white/20 text-white hover:bg-white/30 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:text-white">
+					<i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+					<i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+				</button>
+			</div>
+		</nav>
+
+		<!-- HERO SECTION -->
+		<section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 relative">
+			<div class="max-w-4xl mx-auto text-center space-y-8 z-10">
+				
+				<div class="flex justify-center mb-6">
+					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border bg-white/20 border-white/30 text-white dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400 animate-fade-in-up">
+						<span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Community Live
+					</div>
+				</div>
+				
+				<h1 class="text-5xl md:text-8xl font-black tracking-tighter leading-[1] animate-fade-in-up delay-100 text-white">
+					Build things that <br />
+					<span class="text-blue-200 dark:text-white transition-colors">actually matter.</span>
+				</h1>
+				
+				<p class="text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-medium text-blue-100 dark:text-zinc-400 animate-fade-in-up delay-200 transition-colors">
+					CreateOnBase is where students become professionals. We take the knowledge from the classroom and apply it to the real world.
+				</p>
+
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 animate-fade-in-up delay-300">
+					<a href="#join" class="px-8 py-4 rounded-lg font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 group bg-white text-brand-blue hover:bg-blue-50 shadow-lg shadow-black/10 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+						<i data-lucide="message-circle" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+						Join WhatsApp Group
+					</a>
+					<a href="#about" class="px-8 py-4 rounded-lg font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 group bg-transparent text-white border border-white/30 hover:bg-white/10 dark:bg-zinc-900 dark:text-white dark:border-zinc-800 dark:hover:bg-zinc-800">
+						About Us
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- ABOUT SECTION -->
+		<section id="about" class="py-32 px-6 border-t bg-brand-blue-dark border-white/5 dark:bg-[#050505] dark:border-white/5 transition-colors">
+			<div class="max-w-7xl mx-auto">
+				<div class="grid md:grid-cols-2 gap-16 items-center">
+					<div>
+						<h2 class="text-3xl md:text-5xl font-black mb-6 tracking-tight text-white">Bridging the gap between<br/>Academia and Industry.</h2>
+						<p class="text-lg leading-relaxed mb-8 text-blue-100 dark:text-zinc-400 transition-colors">
+							We exist to complement your university education. While your degree builds a strong theoretical foundation, 
+							CreateOnBase provides the platform to apply that knowledge in real-world scenarios—helping you ship professional products before you graduate.
+						</p>
+						
+						<div class="space-y-4">
+							<!-- Feature 1 -->
+							<div class="flex gap-4 p-4 rounded-xl border bg-white border-transparent shadow-lg dark:bg-zinc-900/50 dark:border-zinc-800 transition-colors">
+								<div class="mt-1 w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-blue-50 text-blue-600 dark:bg-zinc-800 dark:text-white transition-colors">
+									<i data-lucide="cpu" class="w-5 h-5"></i>
+								</div>
+								<div>
+									<h4 class="font-bold text-lg text-slate-900 dark:text-white">Applied Projects</h4>
+									<p class="mt-1 text-sm text-slate-500 dark:text-zinc-500 transition-colors">Turn academic concepts into functioning software.</p>
+								</div>
+							</div>
+							<!-- Feature 2 -->
+							<div class="flex gap-4 p-4 rounded-xl border bg-white border-transparent shadow-lg dark:bg-zinc-900/50 dark:border-zinc-800 transition-colors">
+								<div class="mt-1 w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-blue-50 text-blue-600 dark:bg-zinc-800 dark:text-white transition-colors">
+									<i data-lucide="users" class="w-5 h-5"></i>
+								</div>
+								<div>
+									<h4 class="font-bold text-lg text-slate-900 dark:text-white">Industry Connection</h4>
+									<p class="mt-1 text-sm text-slate-500 dark:text-zinc-500 transition-colors">Connect with alumni and seniors working in the field.</p>
+								</div>
+							</div>
+							<!-- Feature 3 -->
+							<div class="flex gap-4 p-4 rounded-xl border bg-white border-transparent shadow-lg dark:bg-zinc-900/50 dark:border-zinc-800 transition-colors">
+								<div class="mt-1 w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-blue-50 text-blue-600 dark:bg-zinc-800 dark:text-white transition-colors">
+									<i data-lucide="globe" class="w-5 h-5"></i>
+								</div>
+								<div>
+									<h4 class="font-bold text-lg text-slate-900 dark:text-white">Professional Growth</h4>
+									<p class="mt-1 text-sm text-slate-500 dark:text-zinc-500 transition-colors">Build a portfolio that demonstrates career readiness.</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- Social Media Links -->
+						<div class="flex gap-6 mt-8 ml-2">
+							<a href="#" class="text-blue-200 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-xl"></i></a>
+							<a href="#" class="text-blue-200 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+							<a href="#" class="text-blue-200 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+							<a href="https://www.instagram.com/createonbase/" class="text-blue-200 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+						</div>
+					</div>
+
+					<!-- Visual Element -->
+					<div class="relative">
+						<div class="relative rounded-xl overflow-hidden shadow-2xl border bg-white/10 border-white/20 dark:bg-zinc-900 dark:border-zinc-800 transition-colors backdrop-blur-sm">
+							<div class="p-3 border-b flex items-center gap-2 bg-white/10 border-white/10 dark:bg-zinc-900 dark:border-zinc-800 transition-colors">
+								<div class="flex gap-1.5">
+									<div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+									<div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+									<div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+								</div>
+							</div>
+							<div class="p-12 flex flex-col items-center justify-center gap-6 min-h-[300px] bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%,transparent_100%)] dark:bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.1)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%] bg-no-repeat transition-[background-position] duration-[1500ms] hover:bg-[position:100%_100%]">
+							   <div class="text-center">
+								 <span class="text-6xl font-black opacity-20 tracking-widest text-white">BUILD</span>
+							   </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Team Section -->
+	<section id="team" class="py-20 bg-brand-blue border-t border-white/5 dark:bg-[#050505] transition-colors">
+		<div class="container mx-auto px-6">
+			<div class="max-w-6xl mx-auto">
+				<div class="text-center mb-16">
+					<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-6 text-white">
+						<i class="fas fa-users"></i>
+						<span class="text-sm font-medium">Our Leadership</span>
+					</div>
+					<h2 class="heading-font text-4xl md:text-5xl font-bold mb-6 text-white">
+						Meet the <span class="text-blue-200 dark:text-indigo-400">Executive Team</span>
+					</h2>
+					<p class="text-blue-100 dark:text-gray-400 text-lg max-w-3xl mx-auto">
+						The student leaders driving CreateOnBase forward.
+					</p>
+				</div>
+
+				<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+					<!-- President -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							MM
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Mihlali Mabaso</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Student President</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2025718921@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Vice President -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							LM
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Lungile Mbatha</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Vice-President</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2023525658@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Treasurer -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-teal-500 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							SM
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Slindokuhle Mbedu</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Student Treasurer</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2026786482@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Partnerships Lead -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 to-red-500 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							KK
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Kwadwo Kyereko Boateng Opoku Agyemang</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Partnerships Lead</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2026269080@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Technical Lead -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							TM
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Tsebang Maduna</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Technical Lead</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2020477341@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Operations Lead -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							OL
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Oreratile Lekalakala</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Operations Lead</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2023312131@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Marketing Lead -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							FT
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Fedile Tshabalala</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Marketing Lead</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2024789279@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Treasurer Deputy -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							MT
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Mbongeni Tshabalala</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Treasurer Deputy</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2023475474@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+					<!-- Marketing Deputy -->
+					<div class="glass rounded-2xl p-6 text-center hover-lift dark:bg-zinc-900/50 dark:border-zinc-800">
+						<div class="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold border-2 border-white/20">
+							AH
+						</div>
+						<h3 class="text-xl font-bold mb-2 text-white">Ashley Ashirai Hlatshwayo</h3>
+						<div class="text-blue-200 dark:text-indigo-400 font-medium mb-3">Marketing Deputy</div>
+						<p class="text-blue-100/70 dark:text-gray-400 text-sm">2025013596@ufs4life.ac.za</p>
+						<div class="flex justify-center gap-4 mt-4">
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+							<a href="#" class="text-blue-100 hover:text-white dark:text-gray-400 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+		<!-- UPDATES SECTION -->
+	<section id="updates" class="py-32 px-6 border-t bg-brand-blue-dark border-white/5 dark:bg-[#080808] dark:border-white/5 transition-colors">
+		<div class="max-w-7xl mx-auto">
+
+			<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+				<div>
+					<h2 class="text-4xl font-bold mb-4 text-white">Latest Updates</h2>
+					<p class="text-lg max-w-xl text-blue-100 dark:text-zinc-400">
+						We're always moving. Here's what's happening this month in the community.
+					</p>
+				</div>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-8">
+
+				<!-- UPDATE CARD -->
+				<div class="update-card relative border rounded-xl p-8 bg-white border-transparent hover:shadow-2xl hover:-translate-y-1 dark:bg-[#0A0A0A] dark:border-white/10 dark:hover:border-indigo-500/50 transition-all duration-300 flex flex-col shadow-lg">
+
+					<div class="flex justify-between items-start mb-6">
+						<span class="text-xs font-bold uppercase px-3 py-1 rounded-full border text-blue-600 border-blue-200 dark:text-blue-400 dark:border-blue-400/20">
+							Event
+						</span>
+						<span class="text-sm text-slate-400 dark:text-zinc-500">
+							Oct 15
+						</span>
+					</div>
+
+					<h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">GitHub Workshop</h3>
+
+					<p class="text-sm mb-6 text-slate-600 dark:text-zinc-400">
+						A complete beginner guide to creating and setting up your GitHub account.
+					</p>
+
+					<button class="read-more-btn flex items-center text-sm font-bold gap-2 text-slate-900 dark:text-white">
+						Read More
+						<i data-lucide="arrow-right" class="w-4 h-4 transition-transform"></i>
+					</button>
+
+					<!-- EXPANDED CONTENT -->
+					<div class="extra-content hidden mt-6 space-y-4 border-t pt-6 border-slate-200 dark:border-white/10 text-slate-900 dark:text-zinc-300">
+
+						<p class="text-sm text-slate-600 dark:text-zinc-400">
+							We will explain why GitHub is required, how to create repositories,
+							and how to collaborate on projects. Bring your laptop and coffee.
+						</p>
+
+						<div class="text-sm font-medium space-y-1">
+							<p><strong>Date:</strong> 15 October 2026</p>
+							<p><strong>Time:</strong> 14:00 - 16:00</p>
+							<p><strong>Venue:</strong> Computer Lab 3</p>
+						</div>
+
+						<form class="rsvp-form space-y-3">
+
+							<input 
+								type="text" 
+								placeholder="Full Name"
+								required
+								class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-white/10 bg-transparent"
+							/>
+
+							<input 
+								type="email" 
+								placeholder="Student Email"
+								required
+								class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-white/10 bg-transparent"
+							/>
+
+							<button 
+								type="submit"
+								class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition">
+								RSVP
+							</button>
+
+						</form>
+
+					</div>
+				</div>
+
+
+				<!-- SECOND UPDATE CARD -->
+				<div class="update-card relative border rounded-xl p-8 bg-white border-transparent hover:shadow-2xl hover:-translate-y-1 dark:bg-[#0A0A0A] dark:border-white/10 dark:hover:border-indigo-500/50 transition-all duration-300 flex flex-col shadow-lg">
+
+					<div class="flex justify-between items-start mb-6">
+						<span class="text-xs font-bold uppercase px-3 py-1 rounded-full border text-green-600 border-green-200 dark:text-green-400 dark:border-green-400/20">
+							News
+						</span>
+						<span class="text-sm text-slate-400 dark:text-zinc-500">
+							Oct 02
+						</span>
+					</div>
+
+					<h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Applications Open: Core Team</h3>
+
+					<p class="text-sm mb-6 text-slate-600 dark:text-zinc-400">
+						We are looking for designers, content creators, and event managers.
+					</p>
+
+					<button class="read-more-btn flex items-center text-sm font-bold gap-2 text-slate-900 dark:text-white">
+						Read More
+						<i data-lucide="arrow-right" class="w-4 h-4 transition-transform"></i>
+					</button>
+
+					<div class="extra-content hidden mt-6 space-y-4 border-t pt-6 border-slate-200 dark:border-white/10 text-slate-900 dark:text-zinc-300">
+
+						<p class="text-sm text-slate-600 dark:text-zinc-400">
+							Join the leadership team and help run CreateOnBase events,
+							marketing, and technical projects.
+						</p>
+
+						<div class="text-sm font-medium">
+							<p>Applications close: 30 October 2026</p>
+						</div>
+
+					</div>
+				</div>
+
+
+				<!-- THIRD UPDATE CARD -->
+				<div class="update-card relative border rounded-xl p-8 bg-white border-transparent hover:shadow-2xl hover:-translate-y-1 dark:bg-[#0A0A0A] dark:border-white/10 dark:hover:border-indigo-500/50 transition-all duration-300 flex flex-col shadow-lg">
+
+					<div class="flex justify-between items-start mb-6">
+						<span class="text-xs font-bold uppercase px-3 py-1 rounded-full border text-purple-600 border-purple-200 dark:text-purple-400 dark:border-purple-400/20">
+							Resource
+						</span>
+						<span class="text-sm text-slate-400 dark:text-zinc-500">
+							Sep 28
+						</span>
+					</div>
+
+					<h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Tech Internship Guide</h3>
+
+					<p class="text-sm mb-6 text-slate-600 dark:text-zinc-400">
+						A curated list of companies hiring students right now.
+					</p>
+
+					<button class="read-more-btn flex items-center text-sm font-bold gap-2 text-slate-900 dark:text-white">
+						Read More
+						<i data-lucide="arrow-right" class="w-4 h-4 transition-transform"></i>
+					</button>
+
+					<div class="extra-content hidden mt-6 space-y-4 border-t pt-6 border-slate-200 dark:border-white/10 text-slate-900 dark:text-zinc-300">
+
+						<p class="text-sm text-slate-600 dark:text-zinc-400">
+							Includes resume templates, internship links, and interview tips.
+						</p>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+		<!-- JOIN SECTION -->
+		<section id="join" class="py-32 px-6 border-t bg-brand-blue border-white/5 dark:bg-[#050505] dark:border-white/5 transition-colors">
+			<div class="max-w-5xl mx-auto">
+				<div class="rounded-3xl p-12 md:p-20 text-center relative overflow-hidden border bg-white border-white/20 shadow-2xl dark:bg-zinc-900 dark:border-white/5 transition-colors">
+					
+					<div class="relative z-10">
+						<div class="w-16 h-16 mx-auto rounded-xl flex items-center justify-center mb-8 bg-brand-blue text-white dark:bg-white dark:text-black transition-colors">
+							<i data-lucide="message-circle" class="w-8 h-8"></i>
+						</div>
+						
+						<h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tight text-brand-blue dark:text-white">Don't code alone.</h2>
+						<p class="text-xl max-w-2xl mx-auto mb-12 text-slate-600 dark:text-zinc-400 transition-colors">
+							The best way to learn is together. Join our WhatsApp group for daily discussions, job alerts, and event reminders.
+						</p>
+						
+						<div class="flex flex-col sm:flex-row justify-center gap-6">
+							<a href="https://chat.whatsapp.com/LnxChYDMwua5KTXQpm8Jyc?mode=gi_c" target="_blank" class="bg-[#25D366] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:brightness-110 transition-all shadow-xl hover:shadow-green-500/20 hover:-translate-y-1">
+		<i data-lucide="message-circle" class="w-5 h-5"></i> Join WhatsApp Group
+	</a>
+							<button class="px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all border bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200 dark:bg-black dark:border-zinc-800 dark:text-white dark:hover:bg-zinc-900">
+								<i data-lucide="globe" class="w-5 h-5"></i> Join Discord Server
+							</button>
+						</div>
+						
+						<p class="mt-12 text-sm opacity-40 uppercase tracking-widest font-bold text-slate-900 dark:text-white">
+							No spam. Just code. 300+ Members Online.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- FOOTER -->
+		<footer class="py-12 px-6 border-t bg-brand-blue-dark border-white/5 dark:bg-[#050505] dark:border-white/5 transition-colors">
+			<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+				<div class="flex items-center gap-2 font-bold text-lg text-white">
+					<div>
+						 <img src="logo.svg" alt="Create On Base" width="60" height="60" onerror="this.src='https://placehold.co/40x40/white/blue?text=CB'">
+					</div>
+					CreateOnBase
+				</div>
+				<div class="text-sm text-blue-200 dark:text-zinc-500 transition-colors">
+					&copy; <span id="year"></span> CreateOnBase Community.
+				</div>
+				<div class="flex gap-6">
+					 <a href="#" class="text-blue-200 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors"><i class="fab fa-github text-xl"></i></a>
+					 <a href="#" class="text-blue-200 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+					 <a href="#" class="text-blue-200 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+					 <a href="https://www.instagram.com/createonbase/" class="text-blue-200 hover:text-white dark:text-zinc-500 dark:hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+				</div>
+			</div>
+		</footer>
+
+		<!-- LOGIC -->
+		<script>
+			// Initialize Icons
+			lucide.createIcons();
+
+			// Set Current Year
+			document.getElementById('year').textContent = new Date().getFullYear();
+
+			// Dark Mode Logic
+			const themeToggleBtn = document.getElementById('theme-toggle');
+			const html = document.documentElement;
+			
+			// Initial Theme Check (default to dark as per request logic)
+			// Check local storage or system preference
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				html.classList.add('dark');
+			} else {
+				html.classList.remove('dark'); 
+			}
+
+			// Navbar Scroll Effect and Scroll Spy Logic Variables
+			const navbar = document.getElementById('navbar');
+			const navLinks = document.querySelectorAll('.nav-link');
+			const sections = document.querySelectorAll('section');
+
+			// Combined function to handle navbar updates (scroll + theme toggle)
+			function updateNavbar() {
+				const isDark = html.classList.contains('dark');
+				const isScrolled = window.scrollY > 50;
+
+				if (isScrolled) {
+					// Scrolled State
+					navbar.classList.remove('py-6', 'border-transparent');
+					navbar.classList.add('backdrop-blur-md', 'py-4');
+
+					if (isDark) {
+						// Dark Mode Scrolled
+						// Clean up Light mode classes
+						navbar.classList.remove('bg-brand-blue/90', 'border-white/10', 'shadow-lg');
+						// Add Dark mode classes
+						navbar.classList.add('bg-[#050505]/80', 'border-white/5');
+					} else {
+						// Light Mode Scrolled
+						// Clean up Dark mode classes
+						navbar.classList.remove('bg-[#050505]/80', 'border-white/5');
+						// Add Light mode classes
+						navbar.classList.add('bg-brand-blue/90', 'border-white/10', 'shadow-lg');
+					}
+				} else {
+					// Top of Page (Transparent)
+					// Clean up all scrolled classes
+					navbar.classList.remove(
+						'bg-[#050505]/80', 
+						'bg-brand-blue/90', 
+						'backdrop-blur-md', 
+						'border-white/5', 
+						'border-white/10', 
+						'py-4', 
+						'shadow-lg'
+					);
+					navbar.classList.add('py-6', 'border-transparent');
+				}
+
+				// Scroll Spy Logic
+				let current = '';
+				sections.forEach(section => {
+					const sectionTop = section.offsetTop;
+					if (scrollY >= sectionTop - 300) {
+						current = section.getAttribute('id');
+					}
+				});
+
+				navLinks.forEach(link => {
+					link.classList.remove('text-white', 'dark:text-white', 'opacity-100');
+					link.classList.add('text-blue-100', 'dark:text-zinc-500', 'opacity-70');
+					if (link.getAttribute('href').includes(current)) {
+						link.classList.remove('text-blue-100', 'dark:text-zinc-500', 'opacity-70');
+						link.classList.add('text-white', 'dark:text-white', 'opacity-100');
+					}
+				});
+			}
+
+			// Attach listeners
+			window.addEventListener('scroll', updateNavbar);
+
+			themeToggleBtn.addEventListener('click', () => {
+				html.classList.toggle('dark');
+				if (html.classList.contains('dark')) {
+					localStorage.theme = 'dark';
+				} else {
+					localStorage.theme = 'light';
+				}
+				// Force immediate update of navbar styles
+				updateNavbar(); 
+			});
+
+			// FIX: Updated logic to handle Lucide icon replacement (i -> svg)
+			document.querySelectorAll(".read-more-btn").forEach(button => {
+				button.addEventListener("click", () => {
+					const card = button.closest(".update-card");
+					const extraContent = card.querySelector(".extra-content");
+					// Lucide replaces <i> tags with <svg> tags, so we must check for svg first
+					const icon = button.querySelector("svg") || button.querySelector("i");
+
+					if (extraContent) {
+						extraContent.classList.toggle("hidden");
+						button.childNodes[0].textContent =
+							extraContent.classList.contains("hidden")
+								? "Read More "
+								: "Show Less ";
+					}
+					
+					// Safety check: ensure icon exists before accessing classList
+					if (icon) {
+						icon.classList.toggle("rotate-90");
+					}
+				});
+			});
+
+			document.querySelectorAll(".rsvp-form").forEach(form => {
+				form.addEventListener("submit", e => {
+					e.preventDefault();
+
+					const nameInput = form.querySelector('input[type="text"]');
+					const emailInput = form.querySelector('input[type="email"]');
+					
+					if (nameInput && emailInput) {
+						const name = nameInput.value;
+						const email = emailInput.value;
+						alert(`RSVP Received!\nName: ${name}\nEmail: ${email}`);
+						form.reset();
+					}
+				});
+			});
+
+			// Run once on load to set initial state
+			updateNavbar();
+		</script>
+	</body>
+	</html>
